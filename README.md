@@ -32,10 +32,10 @@ A desktop Islamic companion app built with Electron, React, and TypeScript.
 npm install
 
 # Start development server
-npm run dev
+npm run electron:dev
 
 # Build for production
-npm run build
+npm run electron:build
 
 # Start Electron app
 npm run electron
