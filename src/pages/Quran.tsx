@@ -4,7 +4,7 @@ import "./Quran.css";
 import "./Page.css";
 
 const QURAN_API = "https://api.quran.com/api/v4";
-const AUDIO_BASE = "https://verses.quran.com/Alafasy/mp3";
+const QURANI_API = "https://api.qurani.ai/gw/qh/v1";
 
 interface Chapter {
   id: number;
@@ -25,6 +25,7 @@ interface Verse {
   text_uthmani: string;
   page_number: number;
   juz_number: number;
+  audio_url?: string;
   translations?: { text: string }[];
 }
 
@@ -44,11 +45,6 @@ const TRANSLATION_OPTIONS = [
   { value: "149", label: "Bridges' Translation" },
   { value: "84", label: "T. Usmani" },
 ];
-
-function getAudioUrl(verseKey: string): string {
-  const [chapter, verse] = verseKey.split(":");
-  return `${AUDIO_BASE}/${chapter.padStart(3, "0")}${verse.padStart(3, "0")}.mp3`;
-}
 
 function CustomSelect({ value, onChange, options, openUp }: { value: string; onChange: (v: string) => void; options: { value: string; label: string }[]; openUp?: boolean }) {
   const [open, setOpen] = useState(false);
@@ -147,6 +143,8 @@ function ReaderView({
   setTranslation,
   translationOn,
   setTranslationOn,
+  qiraat,
+  setQiraat,
   currentVerseIndex,
   setCurrentVerseIndex,
   playing,
@@ -168,6 +166,8 @@ function ReaderView({
   setTranslation: (v: string) => void;
   translationOn: boolean;
   setTranslationOn: (v: boolean) => void;
+  qiraat: "hafs" | "warsh";
+  setQiraat: (v: "hafs" | "warsh") => void;
   currentVerseIndex: number;
   setCurrentVerseIndex: (i: number) => void;
   playing: boolean;
@@ -186,6 +186,11 @@ function ReaderView({
   const [showPicker, setShowPicker] = useState(false);
   const [pickerSearch, setPickerSearch] = useState("");
   const [versePage, setVersePage] = useState(1);
+  const [zoomLevel, setZoomLevel] = useState(1);
+  const [tajweed, setTajweed] = useState(false);
+  const [showWarshText, setShowWarshText] = useState(false);
+  const [mushafRightPage, setMushafRightPage] = useState(1);
+  const [mushafLeftPage, setMushafLeftPage] = useState(2);
   const pickerRef = useRef<HTMLDivElement>(null);
   const verseRefs = useRef<Map<number, HTMLSpanElement>>(new Map());
   const contentRef = useRef<HTMLDivElement>(null);
@@ -196,6 +201,30 @@ function ReaderView({
   const totalVersePages = Math.ceil(verses.length / VERSES_PER_PAGE);
   const versePageIndex = (versePage - 1) * VERSES_PER_PAGE;
   const pageVerses = verses.slice(versePageIndex, versePageIndex + VERSES_PER_PAGE);
+
+  // Calculate mushaf page for current verse page (for Warsh images)
+  const currentMushafPage = pageVerses.length > 0 ? pageVerses[0].page_number : 1;
+  const WARSH_IMAGES_BASE = tajweed ? "./warsh-tajweed" : "./warsh-normal";
+
+  // Sync mushaf pages when verse page changes
+  useEffect(() => {
+    if (qiraat === "warsh") {
+      const rp = currentMushafPage;
+      const lp = rp + 1;
+      setMushafRightPage(rp);
+      setMushafLeftPage(lp <= 604 ? lp : rp);
+    }
+  }, [currentMushafPage, qiraat]);
+
+  // Set initial mushaf pages when chapter changes
+  useEffect(() => {
+    if (qiraat === "warsh" && chapter) {
+      const startPage = chapter.pages[0];
+      const lp = startPage + 1;
+      setMushafRightPage(startPage);
+      setMushafLeftPage(lp <= 604 ? lp : startPage);
+    }
+  }, [chapter, qiraat]);
 
   const hasBismillah = chapter.id !== 9 && chapter.id !== 1 && chapter.bismillah_pre;
 
@@ -318,6 +347,34 @@ function ReaderView({
       {/* Translation Toggle */}
       <div className="quran-translation-bar">
         <button
+          className={`quran-trans-toggle ${(qiraat === "warsh" && !tajweed) || showWarshText ? "active" : ""}`}
+          onClick={() => { setQiraat("warsh"); setTajweed(false); setShowWarshText(false); }}
+        >
+          Warsh
+        </button>
+        {qiraat === "warsh" && (
+          <>
+          <button
+            className={`quran-trans-toggle ${tajweed ? "active" : ""}`}
+            onClick={() => { setTajweed(true); setShowWarshText(false); }}
+          >
+            Warsh Tajweed
+          </button>
+          <button
+            className={`quran-trans-toggle ${showWarshText ? "active" : ""}`}
+            onClick={() => { setShowWarshText(true); setTajweed(false); }}
+          >
+            Text
+          </button>
+          </>
+        )}
+        <button
+          className={`quran-trans-toggle ${qiraat === "hafs" ? "active" : ""}`}
+          onClick={() => { setQiraat("hafs"); setTajweed(false); setShowWarshText(false); }}
+        >
+          Hafs
+        </button>
+        <button
           className={`quran-trans-toggle ${translationOn ? "active" : ""}`}
           onClick={() => setTranslationOn(!translationOn)}
         >
@@ -327,19 +384,27 @@ function ReaderView({
         {translationOn && (
           <CustomSelect value={translation} onChange={setTranslation} options={TRANSLATION_OPTIONS} />
         )}
+        <div className="quran-zoom-controls">
+          <button className="quran-zoom-btn" onClick={() => setZoomLevel((z) => Math.max(0.5, z - 0.1))}>−</button>
+          <span className="quran-zoom-label">{Math.round(zoomLevel * 100)}%</span>
+          <button className="quran-zoom-btn" onClick={() => setZoomLevel((z) => Math.min(3, z + 0.1))}>+</button>
+        </div>
       </div>
 
       {/* Verse Content */}
       <div className={`quran-content ${translationOn ? "quran-content-split" : ""}`} ref={contentRef}>
         {/* Arabic Text Panel */}
         <div className="quran-arabic-panel">
-          <div ref={arabicContentRef}>
+          <div className="quran-arabic-scroll" style={{ overflow: "auto", maxHeight: "65vh" }}>
+          <div ref={arabicContentRef} style={{ transform: `scale(${zoomLevel})`, transformOrigin: "top center" }}>
+          {qiraat === "warsh" && showWarshText ? (
+            /* Warsh text mode: display verses as text like Hafs */
+            <>
           {hasBismillah && versePage === 1 && (
             <div className="quran-bismillah">
               بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ
             </div>
           )}
-
         <div className="quran-verses-flow" dir="rtl" lang="ar">
           {pageVerses.map((v, i) => {
             const globalIndex = versePageIndex + i;
@@ -359,33 +424,100 @@ function ReaderView({
             );
           })}
         </div>
+            </>
+          ) : qiraat === "warsh" ? (
+            <>
+            <div className={`quran-warsh-pages ${chapter.id === 1 ? "single-page" : ""}`}>
+              {chapter.id !== 1 && mushafLeftPage <= 604 && (
+                <img
+                  key={`left-${mushafLeftPage}`}
+                  src={`${WARSH_IMAGES_BASE}/${mushafLeftPage}.jpg`}
+                  alt={`Page ${mushafLeftPage}`}
+                  className="quran-warsh-page-img"
+                />
+              )}
+              <img
+                key={`right-${mushafRightPage}`}
+                src={`${WARSH_IMAGES_BASE}/${mushafRightPage}.jpg`}
+                alt={`Page ${mushafRightPage}`}
+                className="quran-warsh-page-img"
+              />
+            </div>
+            </>
+          ) : (
+            <>
+          {hasBismillah && versePage === 1 && (
+            <div className="quran-bismillah">
+              بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ
+            </div>
+          )}
+        <div className="quran-verses-flow" dir="rtl" lang="ar">
+          {pageVerses.map((v, i) => {
+            const globalIndex = versePageIndex + i;
+            return (
+              <span
+                key={v.verse_key}
+                ref={(el) => { if (el) verseRefs.current.set(globalIndex, el); }}
+                className={`quran-verse-span ${globalIndex === currentVerseIndex && playing ? "quran-verse-active" : ""}`}
+                onClick={() => {
+                  setCurrentVerseIndex(globalIndex);
+                  if (!playing) onPlay();
+                }}
+              >
+                {v.text_uthmani}
+                <span className="quran-verse-marker"> ﴿{getArabicNumber(v.verse_number)}﴾ </span>
+              </span>
+            );
+          })}
+        </div>
+            </>
+          )}
+          </div>
+          </div>
 
-        {totalVersePages > 1 && (
+        {(totalVersePages > 1 || qiraat === "warsh") && (
           <div className="quran-verse-pagination">
             <button
               className="quran-page-btn"
-              disabled={versePage >= totalVersePages}
-              onClick={() => setVersePage((p) => p + 1)}
+              disabled={qiraat === "warsh" && !showWarshText ? mushafLeftPage >= 604 : versePage >= totalVersePages}
+              onClick={() => {
+                if (qiraat === "warsh" && !showWarshText) {
+                  setMushafRightPage((p) => Math.min(p + 2, 603));
+                  setMushafLeftPage((p) => Math.min(p + 2, 604));
+                } else {
+                  setVersePage((p) => p + 1);
+                }
+              }}
             >
               <ChevronLeft size={16} /> Next Page
             </button>
-            <span className="quran-page-info">{versePage} / {totalVersePages}</span>
+            <span className="quran-page-info">
+              {qiraat === "warsh" && !showWarshText
+                ? `${mushafRightPage}–${mushafLeftPage} / 604`
+                : `${versePage} / ${totalVersePages}`}
+            </span>
             <button
               className="quran-page-btn"
-              disabled={versePage <= 1}
-              onClick={() => setVersePage((p) => p - 1)}
+              disabled={qiraat === "warsh" && !showWarshText ? mushafRightPage <= 1 : versePage <= 1}
+              onClick={() => {
+                if (qiraat === "warsh" && !showWarshText) {
+                  setMushafRightPage((p) => Math.max(p - 2, 1));
+                  setMushafLeftPage((p) => Math.max(p - 2, 2));
+                } else {
+                  setVersePage((p) => p - 1);
+                }
+              }}
             >
               Previous Page <ChevronRight size={16} />
             </button>
           </div>
         )}
-          </div>
         </div>
 
         {/* Translation Panel */}
         {translationOn && (
           <div className="quran-translation-panel" ref={transPanelRef}>
-            <div className="quran-translations-list">
+            <div className="quran-translations-list" style={{ transform: `scale(${zoomLevel})`, transformOrigin: "top center" }}>
               {pageVerses.map((v, i) => {
                 const globalIndex = versePageIndex + i;
                 const t = v.translations?.[0]?.text;
@@ -455,6 +587,7 @@ export default function Quran() {
 
   const [translation, setTranslation] = useState("20");
   const [translationOn, setTranslationOn] = useState(false);
+  const [qiraat, setQiraat] = useState<"hafs" | "warsh">("hafs");
   const [currentVerseIndex, setCurrentVerseIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [speed, setSpeed] = useState("1");
@@ -476,30 +609,62 @@ export default function Quran() {
       .finally(() => setLoading(false));
   }, []);
 
-  // Fetch verses when chapter or translation changes
+  // Fetch verses when chapter, translation, or qira'at changes
   useEffect(() => {
     if (!selectedChapter) return;
     setVersesLoading(true);
-    const transParam = translationOn ? `&translations=${translation}` : "";
-    fetch(`${QURAN_API}/verses/by_chapter/${selectedChapter.id}?fields=text_uthmani${transParam}&per_page=50&page=1`)
-      .then((r) => r.json())
-      .then((d) => {
-        const totalPages = d.pagination.total_pages;
-        if (totalPages <= 1) {
-          setVerses(d.verses);
-          return;
-        }
-        const pagePromises = Array.from({ length: totalPages }, (_, i) =>
-          fetch(`${QURAN_API}/verses/by_chapter/${selectedChapter.id}?fields=text_uthmani${transParam}&per_page=50&page=${i + 1}`)
-            .then((r) => r.json())
-        );
-        Promise.all(pagePromises).then((pages) => {
-          setVerses(pages.flatMap((p) => p.verses));
-        });
-      })
-      .catch(() => {})
-      .finally(() => setVersesLoading(false));
-  }, [selectedChapter, translation, translationOn]);
+
+    if (qiraat === "warsh") {
+      // Fetch Warsh text + Husary audio from qurani.ai
+      fetch(`${QURANI_API}/surah/${selectedChapter.id}/editions/quran-warsh,ar.husary.warsh`)
+        .then((r) => r.json())
+        .then((d) => {
+          const warshData = d.data.find((e: any) => e.edition.identifier === "quran-warsh");
+          const audioData = d.data.find((e: any) => e.edition.identifier === "ar.husary.warsh");
+          const audioMap: Record<number, string> = {};
+          if (audioData) {
+            for (const a of audioData.ayahs) {
+              audioMap[a.numberInSurah] = a.audio;
+            }
+          }
+          const mapped: Verse[] = warshData.ayahs.map((a: any) => ({
+            id: a.number,
+            verse_number: a.numberInSurah,
+            verse_key: `${selectedChapter.id}:${a.numberInSurah}`,
+            text_uthmani: a.text.replace(/^\ufeff/, ""),
+            page_number: a.page,
+            juz_number: a.juz,
+            audio_url: audioMap[a.numberInSurah] || "",
+          }));
+          setVerses(mapped);
+        })
+        .catch(() => {})
+        .finally(() => setVersesLoading(false));
+    } else {
+      // Fetch Hafs text + audio from quran.com (Mishary Alafasy)
+      const transParam = translationOn ? `&translations=${translation}` : "";
+      fetch(`${QURAN_API}/verses/by_chapter/${selectedChapter.id}?fields=text_uthmani&audio=7${transParam}&per_page=50&page=1`)
+        .then((r) => r.json())
+        .then(async (d) => {
+          const totalPages = d.pagination.total_pages;
+          let allVerses = d.verses;
+          if (totalPages > 1) {
+            const pagePromises = Array.from({ length: totalPages }, (_, i) =>
+              fetch(`${QURAN_API}/verses/by_chapter/${selectedChapter.id}?fields=text_uthmani&audio=7${transParam}&per_page=50&page=${i + 1}`)
+                .then((r) => r.json())
+            );
+            const pages = await Promise.all(pagePromises);
+            allVerses = pages.flatMap((p) => p.verses);
+          }
+          setVerses(allVerses.map((v: any) => ({
+            ...v,
+            audio_url: v.audio?.url ? `https://verses.quran.com/${v.audio.url}` : "",
+          })));
+        })
+        .catch(() => {})
+        .finally(() => setVersesLoading(false));
+    }
+  }, [selectedChapter, translation, translationOn, qiraat]);
 
   const stopAudio = useCallback(() => {
     if (audioRef.current) {
@@ -517,8 +682,17 @@ export default function Quran() {
     }
     stopAudio();
     setCurrentVerseIndex(index);
+
+    // Play per-ayah audio
     const verse = verses[index];
-    const audio = new Audio(getAudioUrl(verse.verse_key));
+    if (!verse.audio_url) {
+      setPlaying(false);
+      return;
+    }
+    stopAudio();
+    setCurrentVerseIndex(index);
+
+    const audio = new Audio(verse.audio_url);
     audio.playbackRate = parseFloat(speed);
     audioRef.current = audio;
 
@@ -532,7 +706,6 @@ export default function Quran() {
     };
 
     audio.onerror = () => {
-      // Skip to next verse on error
       if (index < verses.length - 1) {
         playVerse(index + 1);
       } else {
@@ -542,7 +715,7 @@ export default function Quran() {
     };
 
     audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
-  }, [selectedChapter, verses, speed, stopAudio]);
+  }, [selectedChapter, verses, speed, stopAudio, qiraat]);
 
   const handlePlay = useCallback(() => {
     if (playingRef.current) return;
@@ -651,6 +824,8 @@ export default function Quran() {
           setTranslation={setTranslation}
           translationOn={translationOn}
           setTranslationOn={setTranslationOn}
+          qiraat={qiraat}
+          setQiraat={setQiraat}
           currentVerseIndex={currentVerseIndex}
           setCurrentVerseIndex={setCurrentVerseIndex}
           playing={playing}
