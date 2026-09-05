@@ -33,6 +33,13 @@ const METHOD_OPTIONS = [
   { value: "Gulf", label: "Gulf Region" },
 ];
 
+const MADHAB_OPTIONS = [
+  { value: "Hanafi", label: "Hanafi" },
+  { value: "Shafi", label: "Shafi'i" },
+  { value: "Maliki", label: "Maliki" },
+  { value: "Hanbali", label: "Hanbali" },
+];
+
 interface SavedLocation {
   name: string;
   lat: number;
@@ -123,6 +130,7 @@ export default function PrayerTimesPage() {
   const [lng, setLng] = useState<number | null>(null);
   const [locationName, setLocationName] = useState<string>("");
   const [method, setMethod] = useState<string>("MuslimWorldLeague");
+  const [madhab, setMadhab] = useState<string>("Hanafi");
   const [gpsLoading, setGpsLoading] = useState(false);
   const [gpsError, setGpsError] = useState<string>("");
   const [coordLat, setCoordLat] = useState("");
@@ -152,20 +160,22 @@ export default function PrayerTimesPage() {
     }
     const lastMethod = localStorage.getItem("lastMethod");
     if (lastMethod) setMethod(lastMethod);
+    const lastMadhab = localStorage.getItem("lastMadhab");
+    if (lastMadhab) setMadhab(lastMadhab);
   }, []);
 
   useEffect(() => {
     if (lat !== null && lng !== null) {
       fetchPrayerTimesApi(lat, lng);
     }
-  }, [lat, lng, method]);
+  }, [lat, lng, method, madhab]);
 
   const fetchPrayerTimesApi = async (latitude: number, longitude: number) => {
     setApiLoading(true);
     setApiError("");
     try {
       const dateStr = today.toISOString().split("T")[0];
-      const url = `${API_BASE}/prayer-times?lat=${latitude}&lng=${longitude}&date=${dateStr}&method=${method}&madhab=Hanafi&apikey=${API_KEY}`;
+      const url = `${API_BASE}/prayer-times?lat=${latitude}&lng=${longitude}&date=${dateStr}&method=${method}&madhab=${madhab}&apikey=${API_KEY}`;
       const res = await fetch(url);
       if (!res.ok) throw new Error(`API error: ${res.status}`);
       const json = await res.json();
@@ -178,6 +188,7 @@ export default function PrayerTimesPage() {
         JSON.stringify({ lat: latitude, lng: longitude, name: locationName })
       );
       localStorage.setItem("lastMethod", method);
+      localStorage.setItem("lastMadhab", madhab);
     } catch (err) {
       setApiError(
         err instanceof Error ? err.message : "Failed to fetch prayer times"
@@ -349,6 +360,11 @@ export default function PrayerTimesPage() {
             value={method}
             onChange={setMethod}
             options={METHOD_OPTIONS}
+          />
+          <CustomSelect
+            value={madhab}
+            onChange={setMadhab}
+            options={MADHAB_OPTIONS}
           />
         </div>
       </div>

@@ -11,6 +11,12 @@
   color: var(--text-muted);
 }
 
+.prayer-method {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
 .method-select {
   background: var(--surface);
   color: var(--fg);
@@ -43,7 +49,6 @@
 }
 
 .custom-select .method-select {
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -2,6 +2,11 @@
   max-width: 900px;
 }
 
+.page-quran {
+  max-width: none !important;
+  width: 100% !important;
+}
+
 .page-title {
   font-size: calc(var(--app-font-size) * 2.1);
   font-weight: 700;

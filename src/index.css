@@ -1,39 +1,47 @@
 /* Arabic / Islamic Fonts */
 @font-face {
   font-family: "Lateef";
-  src: url("/fonts/Lateef-Regular.ttf") format("truetype");
+  src: url("../fonts/Lateef-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
   font-family: "Lateef";
-  src: url("/fonts/Lateef-Medium.ttf") format("truetype");
+  src: url("../fonts/Lateef-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
 }
 @font-face {
   font-family: "Lateef";
-  src: url("/fonts/Lateef-SemiBold.ttf") format("truetype");
+  src: url("../fonts/Lateef-SemiBold.ttf") format("truetype");
   font-weight: 600;
   font-style: normal;
 }
 @font-face {
   font-family: "Lateef";
-  src: url("/fonts/Lateef-Bold.ttf") format("truetype");
+  src: url("../fonts/Lateef-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
 }
 @font-face {
   font-family: "UthmanicHAFS";
-  src: url("/fonts/KFGQPC Uthmanic Script HAFS Regular.otf") format("opentype");
+  src: url("../fonts/KFGQPC Uthmanic Script HAFS Regular.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
   font-family: "AlMajeed";
-  src: url("/fonts/Al Majeed Quranic Font_shiped.ttf") format("truetype");
+  src: url("../fonts/Al Majeed Quranic Font_shiped.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
+}
+@font-face {
+  font-family: "KFGQPC Warsh";
+  src: url("../fonts/KFGQPC Warsh.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+10E60-10E7E;
 }
 
 *,
