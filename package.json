@@ -1,0 +1,29 @@
+{
+  "name": "islamiyyah",
+  "private": true,
+  "version": "0.1.0",
+  "main": "electron/main.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "electron:dev": "vite build && electron .",
+    "electron:build": "vite build && electron-builder"
+  },
+  "dependencies": {
+    "lucide-react": "^1.39.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.18.3"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.6.0",
+    "electron": "^35.7.5",
+    "electron-builder": "^26.0.0",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.4"
+  }
+}

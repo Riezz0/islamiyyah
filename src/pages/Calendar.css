@@ -1,0 +1,302 @@
+.page-calendar {
+  max-width: 100%;
+}
+
+.calendar-loading {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-muted);
+  font-size: calc(var(--app-font-size) * 1.16);
+}
+
+/* Calendar Grid */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+/* Monthly Calendar */
+.cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.cal-title {
+  font-size: calc(var(--app-font-size) * 1.37);
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.cal-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.cal-nav:hover {
+  background: var(--surface-hover);
+}
+
+.cal-today-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background: var(--accent);
+  color: var(--bg);
+  font-size: calc(var(--app-font-size) * 1.05);
+  font-weight: 700;
+  font-family: var(--app-font);
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: opacity 0.15s ease;
+}
+
+.cal-today-btn:hover {
+  opacity: 0.85;
+}
+
+.cal-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0;
+  margin-bottom: 8px;
+}
+
+.cal-weekday {
+  text-align: center;
+  font-size: calc(var(--app-font-size) * 0.84);
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 6px 0;
+}
+
+.cal-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0;
+}
+
+.cal-day {
+  text-align: center;
+  font-size: calc(var(--app-font-size) * 1.05);
+  color: var(--fg);
+  padding: 10px 0;
+  border-radius: 10px;
+  cursor: default;
+  transition: background 0.1s ease;
+}
+
+.cal-day.empty {
+  visibility: hidden;
+}
+
+.cal-day.today {
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 700;
+}
+
+/* Calendar Card */
+.calendar-card {
+  background: linear-gradient(145deg, var(--surface) 0%, var(--surface-hover) 100%);
+  border: 2px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.calendar-card-full {
+  margin-bottom: 16px;
+}
+
+.calendar-card-header {
+  padding: 20px 28px;
+}
+
+.calendar-card-title {
+  font-size: calc(var(--app-font-size) * 0.84);
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.calendar-card-divider {
+  height: 2px;
+  background: var(--border-strong);
+  margin: 0 28px;
+}
+
+.calendar-card-body {
+  padding: 24px 28px;
+}
+
+/* Today's Date */
+.calendar-hijri-date {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.calendar-arabic-large {
+  font-size: calc(var(--app-font-size) * 2.1);
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.calendar-hijri-main {
+  font-size: calc(var(--app-font-size) * 1.37);
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.calendar-gregorian {
+  font-size: calc(var(--app-font-size) * 1.05);
+  color: var(--text-muted);
+}
+
+/* Moon Phase */
+.calendar-moon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.calendar-moon-emoji {
+  font-size: 48px;
+  line-height: 1;
+}
+
+.calendar-moon-phase {
+  font-size: calc(var(--app-font-size) * 1.37);
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.calendar-moon-illum {
+  font-size: calc(var(--app-font-size) * 1.05);
+  color: var(--text-muted);
+}
+
+.calendar-moon-visibility {
+  font-size: calc(var(--app-font-size) * 0.89);
+  color: var(--muted);
+  max-width: 320px;
+  line-height: 1.5;
+}
+
+/* Moon Details */
+.calendar-moon-details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.calendar-moon-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.calendar-moon-detail-label {
+  font-size: calc(var(--app-font-size) * 0.79);
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.calendar-moon-detail-value {
+  font-size: calc(var(--app-font-size) * 1.16);
+  font-weight: 500;
+  color: var(--fg);
+}
+
+/* Hijri Months Grid */
+.calendar-months-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.calendar-month-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px;
+  border: 2px solid var(--border-strong);
+  border-radius: 10px;
+  background: var(--surface);
+  transition: border-color 0.15s ease;
+}
+
+.calendar-month-item.current {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+}
+
+.calendar-month-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.calendar-month-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  background: var(--accent);
+  color: var(--bg);
+  font-size: calc(var(--app-font-size) * 0.84);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.calendar-month-arabic {
+  font-size: calc(var(--app-font-size) * 1.26);
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.calendar-month-name {
+  font-size: calc(var(--app-font-size) * 1.05);
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.calendar-month-desc {
+  font-size: calc(var(--app-font-size) * 0.84);
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+@media (max-width: 700px) {
+  .calendar-grid {
+    grid-template-columns: 1fr;
+  }
+  .calendar-moon-details {
+    grid-template-columns: 1fr;
+  }
+  .calendar-months-grid {
+    grid-template-columns: 1fr;
+  }
+}

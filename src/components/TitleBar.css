@@ -1,0 +1,47 @@
+.titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 36px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  user-select: none;
+  -webkit-user-select: none;
+  padding: 0 8px 0 16px;
+}
+
+.titlebar-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--fg);
+  font-family: "JetBrainsMono Nerd Font", monospace;
+}
+
+.titlebar-controls {
+  display: flex;
+  gap: 2px;
+}
+
+.titlebar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 28px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.titlebar-btn:hover {
+  background: var(--surface-hover);
+  color: var(--fg);
+}
+
+.titlebar-close:hover {
+  background: var(--danger);
+  color: var(--bg);
+}

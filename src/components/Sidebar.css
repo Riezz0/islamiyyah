@@ -1,0 +1,112 @@
+.sidebar {
+  width: 240px;
+  min-width: 240px;
+  background: var(--bg);
+  border-right: 2px solid var(--border-strong);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow-y: auto;
+}
+
+.sidebar-brand {
+  padding: 24px 20px 20px;
+  border-bottom: 2px solid var(--border-strong);
+}
+
+.brand-arabic {
+  font-size: calc(var(--app-font-size) * 1.37);
+  font-weight: 700;
+  color: var(--accent);
+  font-family: "JetBrainsMono Nerd Font", monospace;
+}
+
+.sidebar-links {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 8px;
+  gap: 4px;
+  flex: 1;
+}
+
+.sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  gap: 4px;
+  border-top: 2px solid var(--border-strong);
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  border-radius: 10px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: calc(var(--app-font-size) * 1.05);
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.sidebar-link:hover {
+  background: var(--surface-hover);
+  color: var(--fg);
+}
+
+.sidebar-link.active[data-section="prayer"] {
+  background: var(--sidebar-prayer);
+  color: var(--bg);
+}
+.sidebar-link.active[data-section="prayer"] svg {
+  color: var(--bg);
+}
+
+.sidebar-link.active[data-section="quran"] {
+  background: var(--sidebar-quran);
+  color: var(--bg);
+}
+.sidebar-link.active[data-section="quran"] svg {
+  color: var(--bg);
+}
+
+.sidebar-link.active[data-section="hadith"] {
+  background: var(--sidebar-hadith);
+  color: var(--bg);
+}
+.sidebar-link.active[data-section="hadith"] svg {
+  color: var(--bg);
+}
+
+.sidebar-link.active[data-section="dua"] {
+  background: var(--sidebar-dua);
+  color: var(--bg);
+}
+.sidebar-link.active[data-section="dua"] svg {
+  color: var(--bg);
+}
+
+.sidebar-link.active[data-section="calendar"] {
+  background: var(--sidebar-calendar);
+  color: var(--bg);
+}
+.sidebar-link.active[data-section="calendar"] svg {
+  color: var(--bg);
+}
+
+.sidebar-link.active[data-section="pray"] {
+  background: var(--sidebar-pray);
+  color: var(--bg);
+}
+.sidebar-link.active[data-section="pray"] svg {
+  color: var(--bg);
+}
+
+.sidebar-link.active[data-section="settings"] {
+  background: var(--text-muted);
+  color: var(--bg);
+}
+.sidebar-link.active[data-section="settings"] svg {
+  color: var(--bg);
+}

@@ -1,0 +1,214 @@
+/* Arabic / Islamic Fonts */
+@font-face {
+  font-family: "Lateef";
+  src: url("/fonts/Lateef-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Lateef";
+  src: url("/fonts/Lateef-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Lateef";
+  src: url("/fonts/Lateef-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Lateef";
+  src: url("/fonts/Lateef-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "UthmanicHAFS";
+  src: url("/fonts/KFGQPC Uthmanic Script HAFS Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "AlMajeed";
+  src: url("/fonts/Al Majeed Quranic Font_shiped.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --app-font: 'Lateef', 'UthmanicHAFS', 'JetBrainsMono Nerd Font', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --app-font-size: 19px;
+  --bg: #1a1b26;
+  --fg: #c0caf5;
+  --cursor: #c0caf5;
+  --color0: #15161e;
+  --color1: #f7768e;
+  --color2: #9ece6a;
+  --color3: #e0af68;
+  --color4: #7aa2f7;
+  --color5: #bb9af7;
+  --color6: #7dcfff;
+  --color7: #a9b1d6;
+  --color8: #414868;
+  --color9: #f7768e;
+  --color10: #9ece6a;
+  --color11: #e0af68;
+  --color12: #7aa2f7;
+  --color13: #bb9af7;
+  --color14: #7dcfff;
+  --color15: #c0caf5;
+  --accent: #7aa2f7;
+  --accent2: #bb9af7;
+  --success: #9ece6a;
+  --warning: #e0af68;
+  --danger: #f7768e;
+  --info: #7dcfff;
+  --muted: #414868;
+  --surface: #1e2030;
+  --surface-hover: #252837;
+  --surface-active: #2e3142;
+  --border: #414868;
+  --border-strong: #565f89;
+  --text-muted: #a9b1d6;
+  --section-prayer: #7aa2f7;
+  --section-quran: #bb9af7;
+  --section-hadith: #7dcfff;
+  --section-dua: #9ece6a;
+  --section-calendar: #e0af68;
+  --section-pray: #f7768e;
+  --sidebar-prayer: #7aa2f7;
+  --sidebar-quran: #bb9af7;
+  --sidebar-hadith: #7dcfff;
+  --sidebar-dua: #9ece6a;
+  --sidebar-calendar: #e0af68;
+  --sidebar-pray: #f7768e;
+}
+
+body {
+  font-family: var(--app-font);
+  background: var(--bg);
+  color: var(--fg);
+  overflow: hidden;
+  font-size: var(--app-font-size);
+  line-height: 1.5;
+  font-synthesis: none;
+  color-scheme: dark;
+}
+
+[dir="rtl"],
+[lang="ar"] {
+  font-variant-ligatures: common-ligatures contextual;
+  font-feature-settings: "liga" 1, "calt" 1, "mark" 1, "mkmk" 1;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+select,
+option,
+input,
+textarea,
+button,
+.sidebar-link,
+.prayer-date,
+.method-select,
+.location-status,
+.location-tab,
+.gps-button,
+.coord-field label,
+.coord-field input,
+.coord-submit,
+.city-input,
+.city-result,
+.save-input,
+.save-button,
+.saved-item-main,
+.saved-item-name,
+.prayer-card-title,
+.prayer-card-location,
+.prayer-card-footer,
+.prayer-item-name,
+.prayer-item-arabic,
+.prayer-item-time,
+.dua-cat-tab,
+.dua-section-title,
+.dua-section-desc,
+.dua-title,
+.dua-arabic,
+.dua-translation,
+.evidence-header,
+.evidence-link,
+.evidence-chain,
+.evidence-hadith-arabic,
+.evidence-translation,
+.evidence-grading,
+.settings-heading,
+.settings-desc,
+.settings-theme-card,
+.theme-name,
+.theme-desc,
+.settings-font-card,
+.settings-font-name,
+.settings-slider-value,
+.settings-preview-text,
+.gps-error,
+.prayer-times-loading,
+.prayer-times-error {
+  font-family: var(--app-font);
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+select {
+  background-color: var(--surface);
+  color: var(--fg);
+  border: 2px solid var(--border-strong);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  padding: 10px 14px;
+  outline: none;
+}
+
+select:focus {
+  border-color: var(--accent);
+}
+
+select option {
+  background-color: var(--surface);
+  color: var(--fg);
+  padding: 10px 16px;
+}

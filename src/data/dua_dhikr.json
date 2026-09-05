@@ -1,0 +1,84 @@
+{
+  "categories": [
+    {
+      "id": "morning",
+      "name": "Morning Adhkar",
+      "description": "The morning أذكار are a set of remembrances and دُعَاء prescribed by our beloved Prophet ﷺ. We should try to recite them with understanding, يَقِين and the presence of the heart, on a daily basis."
+    },
+    {
+      "id": "evening",
+      "name": "Evening Adhkar",
+      "description": "The morning أذكار are a set of remembrances and دُعَاء prescribed by our beloved Prophet ﷺ. We should try to recite them with understanding, يَقِين and the presence of the heart, on a daily basis. To be recited after Asr until Maghrib."
+    }
+  ],
+  "items": [
+    {
+      "id": 1,
+      "category": "morning",
+      "title": "Ayat al-Kursi: The Greatest Protection",
+      "arabic": "اَللّٰهُ لَآ إِلٰهَ إِلَّا هُوَ الْحَىُّ الْقَيُّوْمُ ، لَا تَأْخُذُهُۥ سِنَةٌ وَّلَا نَوْمٌ ، لَهُ مَا فِى السَّمٰـوٰتِ وَمَا فِى الْأَرْضِ ، مَنْ ذَا الَّذِىْ يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِۦ ، يَعْلَمُ مَا بَيْنَ أَيْدِيْهِمْ وَمَا خَلْفَهُمْ ، وَلَا يُحِيْطُوْنَ بِشَىْءٍ مِّنْ عِلْمِهِٓ إِلَّا بِمَا شَآءَ ، وَسِعَ كُرْسِيُّهُ السَّمٰـوٰتِ وَالْأَرْضَ، وَلَا يَئُوْدُهُۥ حِفْظُهُمَا ، وَهُوَ الْعَلِىُّ الْعَظِيْمُ",
+      "translation": "Allah, there is no god worthy of worship but He, the Ever Living, The Sustainer of all. Neither drowsiness overtakes Him nor sleep. To Him Alone belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except with His permission? He knows what is before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and their preservation does not tire Him. And He is the Most High, the Magnificent. (2:255)",
+      "repetition": null,
+      "evidence": {
+        "title": "Prophetic Evidence (Hadith)",
+        "source": "https://hadithunlocked.com/hakim:2064",
+        "sourceLabel": "Hakim 2064",
+        "arabicChain": "حَدَّثَنَا مُحَمَّدُ بْنُ صَالِحِ بْنِ هَانِئٍ ثنا إِبْرَاهِيمُ بْنُ إِسْحَاقَ بْنِ يُوسُفَ ثنا هَارُونُ بْنُ عَبْدِ اللَّهِ ثنا أَبُو دَاوُدَ الطَّيَالِسِيُّ ثنا حَرْبُ بْنُ شَدَّادٍ عَنْ يَحْيَى بْنِ أَبِي كَثِيرٍ حَدَّثَنِي الْحَضْرَمِيُّ بْنُ لَاحِقٍ عَنْ مُحَمَّدِ بْنِ عَمْرِو بْنِ أُبَيِّ بْنِ كَعْبٍ عَنْ جَدِّهِ أُبَيِّ بْنِ كَعْبٍ",
+        "arabicHadith": "أَنَّهُ كَانَ لَهُ جَرِينُ تَمْرٍ فَكَانَ يَجِدُهُ يَنْقُصُ فَحَرَسَهُ لَيْلَةً فَإِذَا هُوَ بِمِثْلِ الْغُلَامِ الْمُحْتَلِمِ فَسَلَّمَ عَلَيْهِ فَرَدَّ عَلَيْهِ السَّلَامَ فَقَالَ أَجِنِّيٌّ أَمْ إِنْسِيٌّ؟ فَقَالَ بَلْ جِنِّيٌّ فَقَالَ أَرِنِي يَدَكَ فَأَرَاهُ فَإِذَا يَدُ كَلْبٍ وَشَعْرُ كَلْبٍ فَقَالَ هَكَذَا خَلْقُ الْجِنِّ فَقَالَ لَقَدْ عَلِمَتِ الْجِنُّ إِنَّهُ لَيْسَ فِيهِمْ رَجُلٌ أَشَدُّ مِنِّي قَالَ مَا جَاءَ بِكَ قَالَ أُنْبِئْنَا أَنَّكَ تُحِبُّ الصَّدَقَةَ فَجِئْنَا نُصِيبُ مِنْ طَعَامِكَ قَالَ مَا يُجِيرُنَا مِنْكُمْ؟ قَالَ تَقْرَأُ آيَةَ الْكُرْسِيِّ مِنْ سُورَةِ الْبَقَرَةِ {اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ} [البقرة 255] قَالَ نَعَمْ قَالَ إِذَا قَرَأْتَهَا غُدْوَةً أُجِرْتَ مِنَّا حَتَّى تُمْسِيَ وَإِذَا قَرَأْتَهَا حِينَ تُمْسِي أُجِرْتَ مِنَّا حَتَّى تُصْبِحَ قَالَ أُبَيٌّ فَغَدَوْتُ إِلَى رَسُولِ اللَّهِ ﷺ فَأَخْبَرْتُهُ بِذَلِكَ فَقَالَ «صَدَقَ الْخَبِيثُ»",
+        "translation": "He had a storehouse of dates and noticed that it was decreasing. So, he guarded it one night. Suddenly, he saw a creature resembling a young pubescent boy. Ubai greeted him with peace, and the creature returned the greeting. Ubai asked, 'Are you a Jinn or a human?' It replied, 'A Jinn.' Ubai said, 'Show me your hand.' It showed him its hand, and it was like the paw of a dog with the hair of a dog. Ubai asked, 'What brought you here?' It replied, 'We were informed that you love giving charity, so we came to take some of your food.' Ubai asked, 'What protects us from you?' It replied, 'You recite Ayat al-Kursi from Surah al-Baqarah.' Ubai said, 'Yes.' It said, 'If you recite it in the morning, you are protected from us until the evening. And if you recite it in the evening, you are protected from us until the morning.' Ubai said: The next morning, I went to the Messenger of Allah ﷺ and informed him about that. The Prophet ﷺ said, 'The evil one spoke the truth.'",
+        "grading": "This hadith is authentic in its chain and was not narrated by them."
+      }
+    },
+    {
+      "id": 2,
+      "category": "morning",
+      "title": "Be Sufficed in All Your Matters (x3)",
+      "arabic": "بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ\nقُلْ هُوَ اللّٰهُ أَحَدٌ ، اَللّٰهُ الصَّمَدُ ، لَمْ يَلِدْ وَلَمْ يُوْلَدْ ، وَلَمْ يَكُنْ لَّهُ كُفُوًا أَحَدٌ\n\nبِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ\nقُلْ أَعُوْذُ بِرَبِّ الْفَلَقِ ، مِنْ شَرِّ مَا خَلَقَ ، وَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ ، وَمِنْ شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ، وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ\n\nبِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ\nقُلْ أَعُوْذُ بِرَبِّ النَّاسِ ، مَلِكِ النَّاسِ ، إِلٰهِ النَّاسِ ، مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ، اَلَّذِيْ يُوَسْوِسُ فِيْ صُدُوْرِ النَّاسِ ، مِنَ الْجِنَّةِ وَالنَّاسِ",
+      "translation": "In the name of Allah, the All-Merciful, the Very Merciful. Say, He is Allah, the One, the Self-Sufficient Master, Who has not given birth and was not born, and to Whom no one is equal. (112)\n\nIn the name of Allah, the All-Merciful, the Very Merciful. Say, I seek protection of the Lord of the daybreak, from the evil of what He has created, and from the evil of the darkening night when it settles, and from the evil of the blowers in knots, and from the evil of the envier when he envies. (113)\n\nIn the name of Allah, the All-Merciful, the Very Merciful. Say, I seek protection of the Lord of mankind, the King of mankind, the God of mankind, from the evil of the whisperer who withdraws, who whispers in the hearts of mankind, whether they be Jinn or people. (114)",
+      "repetition": "3 times morning and evening",
+      "evidence": {
+        "title": "Prophetic Evidence (Hadith)",
+        "source": "https://sunnah.com/tirmidhi:3575",
+        "sourceLabel": "Jami' at-Tirmidhi 3575",
+        "arabicChain": "حَدَّثَنَا عَبْدُ بْنُ حُمَيْدٍ، حَدَّثَنَا مُحَمَّدُ بْنُ إِسْمَاعِيلَ بْنِ أَبِي فُدَيْكٍ، حَدَّثَنَا ابْنُ أَبِي ذِئْبٍ، عَنْ أَبِي سَعِيدٍ الْبَرَّادِ، عَنْ مُعَاذِ بْنِ عَبْدِ اللَّهِ بْنِ خُبَيْبٍ، عَنْ أَبِيهِ",
+        "arabicHadith": "قَالَ خَرَجْنَا فِي لَيْلَةٍ مَطِيرَةٍ وَظُلْمَةٍ شَدِيدَةٍ نَطْلُبُ رَسُولَ اللَّهِ ﷺ يُصَلِّي لَنَا فَأَدْرَكْتُهُ فَقَالَ قُلْ فَلَمْ أَقُلْ شَيْئًا ثُمَّ قَالَ قُلْ فَلَمْ أَقُلْ شَيْئًا قَالَ قُلْ قُلْتُ مَا أَقُولُ قَالَ قُلْ هُوَ اللَّهُ أَحَدٌ وَالْمُعَوِّذَتَيْنِ حِينَ تُمْسِي وَتُصْبِحُ ثَلَاثَ مَرَّاتٍ تَكْفِيكَ مِنْ كُلِّ شَيْءٍ",
+        "translation": "Mu'adh bin Abdullah bin Khubaib narrated from his father: We went out on a rainy and extremely dark night, looking for the Messenger of Allah ﷺ so that he could lead us in Salat. I met him and he ﷺ said: 'Speak!' But I did not say anything. Then he ﷺ said: 'Speak!' But I did not say anything. He ﷺ said: 'Speak!' So I said: 'What should I say?' He ﷺ said: 'Say: He is Allah, the One, and Al-Mu'awwidhatain, when you reach evening, and when you reach morning, three times, they will suffice you against everything.'",
+        "grading": "Hasan (Darussalam)"
+      }
+    },
+    {
+      "id": 3,
+      "category": "morning",
+      "title": "Sayyid al-Istighfar: Master of Forgiveness",
+      "arabic": "اَللّٰهُمَّ أَنْتَ رَبِّيْ لَا إِلٰهَ إِلَّا أَنْتَ ، خَلَقْتَنِيْ وَأَنَا عَبْدُكَ ، وَأَنَا عَلَىٰ عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ ، أَعُوْذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ ، أَبُوْءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوْءُ لَكَ بِذَنْبِيْ ، فَاغْفِرْ لِيْ فَإِنَّهُ لَا يَغْفِرُ الذُّنُوْبَ إِلَّا أَنْتَ",
+      "translation": "O Allah, You are my Lord. There is no god worthy of worship except You. You have created me, and I am Your slave, and I am under Your covenant and pledge (to fulfil it) to the best of my ability. I seek Your protection from the evil that I have done. I acknowledge the favours that You have bestowed upon me, and I admit my sins. Forgive me, for none forgives sins but You.",
+      "repetition": null,
+      "evidence": {
+        "title": "Prophetic Evidence (Hadith)",
+        "source": "https://sunnah.com/bukhari:6306",
+        "sourceLabel": "Sahih al-Bukhari 6306",
+        "arabicChain": "حَدَّثَنَا أَبُو مَعْمَرٍ، حَدَّثَنَا عَبْدُ الْوَارِثِ، حَدَّثَنَا الْحُسَيْنُ، حَدَّثَنَا عَبْدُ اللَّهِ بْنُ بُرَيْدَةَ، عَنْ بُشَيْرِ بْنِ كَعْبٍ الْعَدَوِيِّ، قَالَ حَدَّثَنِي شَدَّادُ بْنُ أَوْسٍ رضى الله عنه عَنِ النَّبِيِّ ﷺ",
+        "arabicHadith": "سَيِّدُ الاِسْتِغْفَارِ أَنْ تَقُولَ اللَّهُمَّ أَنْتَ رَبِّي، لاَ إِلَهَ إِلاَّ أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَىَّ وَأَبُوءُ لَكَ بِذَنْبِي، فَاغْفِرْ لِي، فَإِنَّهُ لاَ يَغْفِرُ الذُّنُوبَ إِلاَّ أَنْتَ. قَالَ وَمَنْ قَالَهَا مِنَ النَّهَارِ مُوقِنًا بِهَا، فَمَاتَ مِنْ يَوْمِهِ قَبْلَ أَنْ يُمْسِيَ، فَهُوَ مِنْ أَهْلِ الْجَنَّةِ، وَمَنْ قَالَهَا مِنَ اللَّيْلِ وَهْوَ مُوقِنٌ بِهَا، فَمَاتَ قَبْلَ أَنْ يُصْبِحَ، فَهْوَ مِنْ أَهْلِ الْجَنَّةِ",
+        "translation": "Narrated Shaddad bin Aus: The Prophet ﷺ said 'The most superior way of asking for forgiveness from Allah is: O Allah, You are my Lord, there is none worthy of worship except You. You have created me, and I am Your servant, and I am faithful to Your covenant and promise as much as I can. I seek refuge in You from the evil of what I have done. I acknowledge Your blessings upon me, and I admit my sins. So forgive me, for none forgives sins except You.' The Prophet ﷺ added: 'If somebody recites it during the day with firm faith in it, and dies on the same day before the evening, he will be from the people of Paradise; and if somebody recites it at night with firm faith in it, and dies before the morning, he will be from the people of Paradise.'",
+        "grading": "Sahih al-Bukhari 6306"
+      }
+    },
+    {
+      "id": 4,
+      "category": "morning",
+      "title": "Well-being in this World and the Hereafter",
+      "arabic": "اَللّٰهُمَّ إِنِّيْ أَسْأَلُكَ الْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ ، اَللّٰهُمَّ إِنِّيْ أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِيْ دِيْنِيْ وَدُنْيَايَ وَأَهْلِيْ وَمَالِيْ ، اَللّٰهُمَّ اسْتُرْ عَوْرَاتِيْ وَآمِنْ رَوْعَاتِيْ ، اَللّٰهُمَّ احْفَظْنِيْ مِنْ بَيْنِ يَدَيَّ ، وَمِنْ خَلْفِيْ ، وَعَنْ يَّمِيْنِيْ ، وَعَنْ شِمَالِيْ ، وَمِنْ فَوْقِيْ ، وَأَعُوْذُ بِعَظَمَتِكَ أَنْ أُغْتَالَ مِنْ تَحْتِيْ",
+      "translation": "O Allah, I ask You for well-being in this world and in the Hereafter. O Allah, I ask You for forgiveness and well-being in my religion, my worldly affairs, my family and my property. O Allah, conceal my faults and keep me safe from that which I fear. O Allah, guard me from before me and behind me, from my right and from my left, and from above me, and I seek refuge in Your Greatness from being destroyed from beneath me.",
+      "repetition": null,
+      "evidence": {
+        "title": "Prophetic Evidence (Hadith)",
+        "source": "https://sunnah.com/abudawud:5074",
+        "sourceLabel": "Sunan Abi Dawud 5074",
+        "arabicChain": "حَدَّثَنَا يَحْيَى بْنُ مُوسَى الْبَلْخِيُّ، حَدَّثَنَا وَكِيعٌ، ح وَحَدَّثَنَا عُثْمَانُ بْنُ أَبِي شَيْبَةَ، الْمَعْنَى حَدَّثَنَا ابْنُ نُمَيْرٍ، قَالاَ حَدَّثَنَا عُبَادَةُ بْنُ مُسْلِمٍ الْفَزَارِيُّ، عَنْ جُبَيْرِ بْنِ أَبِي سُلَيْمَانَ بْنِ جُبَيْرِ بْنِ مُطْعِمٍ، قَالَ سَمِعْتُ ابْنَ عُمَرَ، يَقُولُ",
+        "arabicHadith": "لَمْ يَكُنْ رَسُولُ اللَّهِ ﷺ يَدَعُ هَؤُلاَءِ الدَّعَوَاتِ حِينَ يُمْسِي وَحِينَ يُصْبِحُ اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ فِي الدُّنْيَا وَالآخِرَةِ اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي دِينِي وَدُنْيَاىَ وَأَهْلِي وَمَالِي اللَّهُمَّ اسْتُرْ عَوْرَتِي وَقَالَ عُثْمَانُ عَوْرَاتِي وَآمِنْ رَوْعَاتِي اللَّهُمَّ احْفَظْنِي مِنْ بَيْنِ يَدَىَّ وَمِنْ خَلْفِي وَعَنْ يَمِينِي وَعَنْ شِمَالِي وَمِنْ فَوْقِي وَأَعُوذُ بِعَظَمَتِكَ أَنْ أُغْتَالَ مِنْ تَحْتِي",
+        "translation": "Narrated Abdullah ibn Umar: The Messenger of Allah ﷺ never failed to utter these supplications in the evening and in the morning: O Allah, I ask You for security in this world and in the Hereafter. O Allah, I ask You for forgiveness and security in my religion, my worldly affairs, my family and my property. O Allah, conceal my faults and keep me safe from that which I fear. O Allah, guard me from before me and behind me, from my right and from my left, and from above me, and I seek refuge in Your Greatness from being destroyed beneath me.",
+        "grading": "Sunan Abi Dawud 5074 - Sahih (Albani)"
+      }
+    }
+  ]
+}
