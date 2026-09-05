@@ -40,7 +40,7 @@
   border: none;
   border-radius: 10px;
   background: transparent;
-  color: var(--accent);
+  color: var(--section-calendar);
   cursor: pointer;
   transition: background 0.15s ease;
 }
@@ -55,7 +55,7 @@
   padding: 10px;
   border: none;
   border-radius: 10px;
-  background: var(--accent);
+  background: var(--section-calendar);
   color: var(--bg);
   font-size: calc(var(--app-font-size) * 1.05);
   font-weight: 700;
@@ -105,7 +105,7 @@
 }
 
 .cal-day.today {
-  background: var(--accent);
+  background: var(--section-calendar);
   color: var(--bg);
   font-weight: 700;
 }
@@ -155,7 +155,7 @@
 .calendar-arabic-large {
   font-size: calc(var(--app-font-size) * 2.1);
   font-weight: 700;
-  color: var(--accent);
+  color: var(--section-calendar);
 }
 
 .calendar-hijri-main {
@@ -247,8 +247,8 @@
 }
 
 .calendar-month-item.current {
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+  border-color: var(--section-calendar);
+  background: color-mix(in srgb, var(--section-calendar) 8%, var(--surface));
 }
 
 .calendar-month-header {
@@ -264,7 +264,7 @@
   width: 28px;
   height: 28px;
   border-radius: 10px;
-  background: var(--accent);
+  background: var(--section-calendar);
   color: var(--bg);
   font-size: calc(var(--app-font-size) * 0.84);
   font-weight: 700;

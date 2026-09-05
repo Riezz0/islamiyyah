@@ -27,7 +27,7 @@
 }
 
 .method-select:focus {
-  border-color: var(--accent);
+  border-color: var(--section-prayer);
 }
 
 .method-select option {
@@ -94,7 +94,7 @@
 }
 
 .custom-select-option.active {
-  background: var(--accent);
+  background: var(--section-prayer);
   color: var(--bg);
 }
 

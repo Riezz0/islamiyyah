@@ -50,7 +50,7 @@ function getAudioUrl(verseKey: string): string {
   return `${AUDIO_BASE}/${chapter.padStart(3, "0")}${verse.padStart(3, "0")}.mp3`;
 }
 
-function CustomSelect({ value, onChange, options }: { value: string; onChange: (v: string) => void; options: { value: string; label: string }[] }) {
+function CustomSelect({ value, onChange, options, openUp }: { value: string; onChange: (v: string) => void; options: { value: string; label: string }[]; openUp?: boolean }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const selected = options.find((o) => o.value === value);
@@ -64,7 +64,7 @@ function CustomSelect({ value, onChange, options }: { value: string; onChange: (
   }, []);
 
   return (
-    <div ref={ref} className="custom-select">
+    <div ref={ref} className={`custom-select ${openUp ? "open-up" : ""}`}>
       <button className="method-select" onClick={() => setOpen(!open)}>
         <span>{selected?.label || value}</span>
         <ChevronDown size={14} className={`custom-select-chevron ${open ? "open" : ""}`} />
@@ -189,6 +189,8 @@ function ReaderView({
   const pickerRef = useRef<HTMLDivElement>(null);
   const verseRefs = useRef<Map<number, HTMLSpanElement>>(new Map());
   const contentRef = useRef<HTMLDivElement>(null);
+  const arabicContentRef = useRef<HTMLDivElement>(null);
+  const transPanelRef = useRef<HTMLDivElement>(null);
 
   const VERSES_PER_PAGE = 15;
   const totalVersePages = Math.ceil(verses.length / VERSES_PER_PAGE);
@@ -216,6 +218,22 @@ function ReaderView({
     }
   }, [currentVerseIndex]);
 
+  // Sync translation panel height to Arabic content height
+  useEffect(() => {
+    if (!translationOn || !arabicContentRef.current || !transPanelRef.current) return;
+    const syncHeight = () => {
+      if (arabicContentRef.current && transPanelRef.current) {
+        // Arabic panel padding: 32px top+bottom, Translation: 24px. Difference = 16px
+        const h = arabicContentRef.current.scrollHeight + 16;
+        transPanelRef.current.style.height = `${h}px`;
+      }
+    };
+    syncHeight();
+    const observer = new ResizeObserver(syncHeight);
+    observer.observe(arabicContentRef.current);
+    return () => observer.disconnect();
+  }, [translationOn, pageVerses, currentVerseIndex]);
+
   // Close picker on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -241,11 +259,11 @@ function ReaderView({
       <div className="quran-reader-header">
         <button
           className="quran-nav-arrow"
-          disabled={chapter.id <= 1}
-          onClick={onSurahBack}
-          aria-label="Previous surah"
+          disabled={chapter.id >= 114}
+          onClick={onSurahNext}
+          aria-label="Next surah"
         >
-          <ChevronRight size={20} />
+          <ChevronLeft size={20} />
         </button>
 
         <div className="quran-header-center" ref={pickerRef}>
@@ -289,11 +307,11 @@ function ReaderView({
 
         <button
           className="quran-nav-arrow"
-          disabled={chapter.id >= 114}
-          onClick={onSurahNext}
-          aria-label="Next surah"
+          disabled={chapter.id <= 1}
+          onClick={onSurahBack}
+          aria-label="Previous surah"
         >
-          <ChevronLeft size={20} />
+          <ChevronRight size={20} />
         </button>
       </div>
 
@@ -315,6 +333,7 @@ function ReaderView({
       <div className={`quran-content ${translationOn ? "quran-content-split" : ""}`} ref={contentRef}>
         {/* Arabic Text Panel */}
         <div className="quran-arabic-panel">
+          <div ref={arabicContentRef}>
           {hasBismillah && versePage === 1 && (
             <div className="quran-bismillah">
               بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ
@@ -345,26 +364,27 @@ function ReaderView({
           <div className="quran-verse-pagination">
             <button
               className="quran-page-btn"
-              disabled={versePage <= 1}
-              onClick={() => setVersePage((p) => p - 1)}
+              disabled={versePage >= totalVersePages}
+              onClick={() => setVersePage((p) => p + 1)}
             >
-              <ChevronRight size={16} /> Previous Page
+              <ChevronLeft size={16} /> Next Page
             </button>
             <span className="quran-page-info">{versePage} / {totalVersePages}</span>
             <button
               className="quran-page-btn"
-              disabled={versePage >= totalVersePages}
-              onClick={() => setVersePage((p) => p + 1)}
+              disabled={versePage <= 1}
+              onClick={() => setVersePage((p) => p - 1)}
             >
-              Next Page <ChevronLeft size={16} />
+              Previous Page <ChevronRight size={16} />
             </button>
           </div>
         )}
+          </div>
         </div>
 
         {/* Translation Panel */}
         {translationOn && (
-          <div className="quran-translation-panel">
+          <div className="quran-translation-panel" ref={transPanelRef}>
             <div className="quran-translations-list">
               {pageVerses.map((v, i) => {
                 const globalIndex = versePageIndex + i;
@@ -418,7 +438,7 @@ function ReaderView({
         </button>
 
         <div className="quran-speed-wrap">
-          <CustomSelect value={speed} onChange={setSpeed} options={SPEED_OPTIONS} />
+          <CustomSelect value={speed} onChange={setSpeed} options={SPEED_OPTIONS} openUp />
         </div>
       </div>
     </div>
@@ -460,11 +480,10 @@ export default function Quran() {
   useEffect(() => {
     if (!selectedChapter) return;
     setVersesLoading(true);
-    const transParam = `&translations=${translation}`;
+    const transParam = translationOn ? `&translations=${translation}` : "";
     fetch(`${QURAN_API}/verses/by_chapter/${selectedChapter.id}?fields=text_uthmani${transParam}&per_page=50&page=1`)
       .then((r) => r.json())
       .then((d) => {
-        // Fetch all pages if needed
         const totalPages = d.pagination.total_pages;
         if (totalPages <= 1) {
           setVerses(d.verses);
@@ -480,7 +499,7 @@ export default function Quran() {
       })
       .catch(() => {})
       .finally(() => setVersesLoading(false));
-  }, [selectedChapter, translation]);
+  }, [selectedChapter, translation, translationOn]);
 
   const stopAudio = useCallback(() => {
     if (audioRef.current) {

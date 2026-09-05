@@ -36,6 +36,11 @@
   overflow-y: auto;
 }
 
+.custom-select.open-up .custom-select-dropdown {
+  top: auto;
+  bottom: calc(100% + 4px);
+}
+
 .custom-select-option {
   display: block;
   width: 100%;
@@ -55,7 +60,7 @@
 }
 
 .custom-select-option.active {
-  background: var(--accent);
+  background: var(--section-quran);
   color: var(--bg);
 }
 
@@ -508,7 +513,6 @@
 .quran-arabic-panel {
   flex: 1;
   padding: 32px 40px;
-  overflow-y: auto;
 }
 
 .quran-content-split .quran-arabic-panel {
