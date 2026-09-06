@@ -9,7 +9,9 @@ import {
   SkipBack,
   SkipForward,
   Loader2,
+  RotateCw,
 } from "lucide-react";
+import CustomSelect from "../components/CustomSelect";
 import "./Page.css";
 import "./Quran.css";
 
@@ -241,6 +243,17 @@ export default function Quran() {
   const [playingAyah, setPlayingAyah] = useState<number | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  const [hifdhMode, setHifdhMode] = useState(false);
+  const [hifdhRangeStart, setHifdhRangeStart] = useState(1);
+  const [hifdhRangeEnd, setHifdhRangeEnd] = useState(7);
+  const [hifdhRepeatsPerVerse, setHifdhRepeatsPerVerse] = useState(1);
+  const [hifdhRepeatsOfRange, setHifdhRepeatsOfRange] = useState(1);
+  const [hifdhGapMs, setHifdhGapMs] = useState(0);
+  const [hifdhRangeCount, setHifdhRangeCount] = useState(0);
+  const [hifdhVerseCount, setHifdhVerseCount] = useState(0);
+  const [hifdhCurrentVerse, setHifdhCurrentVerse] = useState<number | null>(null);
+  const hifdhStopRef = useRef(false);
+
   const pages = surahData
     ? [...new Set(surahData.ayahs.map((a) => a.page))].sort((a, b) => a - b)
     : [];
@@ -249,25 +262,43 @@ export default function Quran() {
   const spreads = (() => {
     if (totalPages === 0) return [];
     const result: { right: number; left: number | null }[] = [];
-    const allPages = pages.length > 0 && pages[0] === 1
-      ? pages
-      : pages;
+    const allPages = [...pages];
     let i = 0;
     if (allPages[i] === 1) {
       result.push({ right: 1, left: null });
-      i = 1;
+      i++;
+    }
+    if (i < allPages.length && allPages[i] === 2) {
+      result.push({ right: 2, left: null });
+      i++;
     }
     while (i < allPages.length) {
       const right = allPages[i];
-      const left = i + 1 < allPages.length ? allPages[i + 1] : null;
+      let left: number | null = null;
+      if (i + 1 < allPages.length) {
+        left = allPages[i + 1];
+        i += 2;
+      } else {
+        left = Math.min(right + 1, 604);
+        i += 1;
+      }
       result.push({ right, left });
-      i += left !== null ? 2 : 1;
     }
     return result;
   })();
 
   const totalSpreads = spreads.length;
   const currentSpread = spreads[currentSpreadIdx] || { right: 1, left: null };
+
+  const highlightedPage = (() => {
+    if (!hifdhCurrentVerse || !surahData) return null;
+    const ayah = surahData.ayahs.find((a) => a.numberInSurah === hifdhCurrentVerse);
+    return ayah ? ayah.page : null;
+  })();
+
+  const ayahOptions = surahData
+    ? surahData.ayahs.map((a) => ({ value: String(a.numberInSurah), label: String(a.numberInSurah) }))
+    : [];
 
   useEffect(() => {
     if (!selectedSurah) return;
@@ -282,6 +313,8 @@ export default function Quran() {
       .then((data) => {
         if (!cancelled) {
           setSurahData(data);
+          setHifdhRangeStart(1);
+          setHifdhRangeEnd(data.numberOfAyahs);
           setLoading(false);
         }
       })
@@ -299,12 +332,16 @@ export default function Quran() {
   }, [selectedSurah]);
 
   const stopAudio = useCallback(() => {
+    hifdhStopRef.current = true;
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
       audioRef.current = null;
     }
     setPlayingAyah(null);
+    setHifdhCurrentVerse(null);
+    setHifdhRangeCount(0);
+    setHifdhVerseCount(0);
   }, []);
 
   const getAyahAudioUrl = (surah: number, ayah: number): string => {
@@ -340,6 +377,67 @@ export default function Quran() {
     if (!selectedSurah) return;
     playAyah(selectedSurah, 1);
   }, [selectedSurah, playAyah]);
+
+  const playHifdh = useCallback(() => {
+    if (!selectedSurah || !surahData) return;
+    hifdhStopRef.current = false;
+    setHifdhRangeCount(0);
+    setHifdhVerseCount(0);
+
+    const start = Math.max(1, hifdhRangeStart);
+    const end = Math.min(hifdhRangeEnd, surahData.numberOfAyahs);
+    if (start > end) return;
+
+    const playSingleAyah = (ayahNum: number): Promise<void> => {
+      return new Promise((resolve) => {
+        if (hifdhStopRef.current) { resolve(); return; }
+        const audioUrl = getAyahAudioUrl(selectedSurah, ayahNum);
+        const audio = new Audio(audioUrl);
+        audioRef.current = audio;
+        setPlayingAyah(ayahNum);
+        setHifdhCurrentVerse(ayahNum);
+        audio.onerror = () => { setPlayingAyah(null); resolve(); };
+        audio.onended = () => {
+          setPlayingAyah(null);
+          resolve();
+        };
+        audio.play().catch(() => { setPlayingAyah(null); resolve(); });
+      });
+    };
+
+    const delay = (ms: number): Promise<void> => {
+      return new Promise((resolve) => {
+        if (hifdhStopRef.current) { resolve(); return; }
+        setTimeout(resolve, ms);
+      });
+    };
+
+    const run = async () => {
+      for (let rangeIteration = 1; rangeIteration <= hifdhRepeatsOfRange; rangeIteration++) {
+        if (hifdhStopRef.current) break;
+        setHifdhRangeCount(rangeIteration);
+
+        for (let ayahNum = start; ayahNum <= end; ayahNum++) {
+          if (hifdhStopRef.current) break;
+          setHifdhVerseCount(0);
+
+          for (let verseRepeat = 1; verseRepeat <= hifdhRepeatsPerVerse; verseRepeat++) {
+            if (hifdhStopRef.current) break;
+            setHifdhVerseCount(verseRepeat);
+            await playSingleAyah(ayahNum);
+            if (hifdhStopRef.current) break;
+            if (hifdhGapMs > 0) await delay(hifdhGapMs);
+          }
+        }
+      }
+      setPlayingAyah(null);
+      setHifdhCurrentVerse(null);
+      setHifdhRangeCount(0);
+      setHifdhVerseCount(0);
+    };
+
+    run();
+  }, [selectedSurah, surahData, hifdhRangeStart, hifdhRangeEnd, hifdhRepeatsPerVerse, hifdhRepeatsOfRange, hifdhGapMs, stopAudio]);
 
   const handlePrevSurah = () => {
     if (selectedSurah && selectedSurah > 1) {
@@ -398,7 +496,7 @@ export default function Quran() {
           ) : surahData ? (
             <>
               <div className="quran-reader-header">
-                <button className="quran-audio-btn" onClick={handlePrevSurah} disabled={!selectedSurah || selectedSurah <= 1}>
+                <button className="quran-audio-btn" onClick={handleNextSurah} disabled={!selectedSurah || selectedSurah >= 114}>
                   <ChevronLeft size={18} />
                 </button>
                 <div className="quran-reader-title">
@@ -410,13 +508,13 @@ export default function Quran() {
                     Warsh · Page {currentSpread.right}{currentSpread.left ? `–${currentSpread.left}` : ""} / 604
                   </span>
                 </div>
-                <button className="quran-audio-btn" onClick={handleNextSurah} disabled={!selectedSurah || selectedSurah >= 114}>
+                <button className="quran-audio-btn" onClick={handlePrevSurah} disabled={!selectedSurah || selectedSurah <= 1}>
                   <ChevronRight size={18} />
                 </button>
               </div>
 
-              <div className={`quran-mushaf-spread ${currentSpread.left === null ? "single-page" : ""}`}>
-                <div className="quran-mushaf-page">
+              <div className={`quran-mushaf-spread ${currentSpread.left === null ? "single-page" : ""} ${hifdhMode && playingAyah ? "hifdh-active" : ""}`}>
+                <div className={`quran-mushaf-page ${highlightedPage === currentSpread.right ? "hifdh-highlight" : ""}`}>
                   <img
                     key={`right-${currentSpread.right}`}
                     src={getPageImageSrc(currentSpread.right, showTajweed)}
@@ -426,7 +524,7 @@ export default function Quran() {
                   />
                 </div>
                 {currentSpread.left !== null && (
-                  <div className="quran-mushaf-page">
+                  <div className={`quran-mushaf-page ${highlightedPage === currentSpread.left ? "hifdh-highlight" : ""}`}>
                     <img
                       key={`left-${currentSpread.left}`}
                       src={getPageImageSrc(currentSpread.left, showTajweed)}
@@ -439,33 +537,105 @@ export default function Quran() {
               </div>
 
               <div className="quran-audio-bar">
-                <button className="quran-audio-btn" onClick={handlePrevSurah} disabled={!selectedSurah || selectedSurah <= 1}>
-                  <SkipBack size={16} />
-                </button>
-                <button
-                  className={`quran-audio-btn quran-audio-play`}
-                  onClick={() => {
-                    if (playingAyah) {
-                      stopAudio();
-                    } else {
-                      playSurah();
-                    }
-                  }}
-                >
-                  {playingAyah ? <Pause size={20} /> : <Play size={20} />}
-                </button>
-                <button className="quran-audio-btn" onClick={stopAudio}>
-                  <StopCircle size={16} />
-                </button>
-                <button className="quran-audio-btn" onClick={handleNextSurah} disabled={!selectedSurah || selectedSurah >= 114}>
-                  <SkipForward size={16} />
-                </button>
-                <button
-                  className={`quran-toggle-trans ${showTajweed ? "active" : ""}`}
-                  onClick={() => setShowTajweed(!showTajweed)}
-                >
-                  {showTajweed ? "Tajweed On" : "Tajweed Off"}
-                </button>
+                <div className="quran-audio-controls">
+                  <button className="quran-audio-btn" onClick={handlePrevSurah} disabled={!selectedSurah || selectedSurah <= 1}>
+                    <SkipBack size={16} />
+                  </button>
+                  <button
+                    className={`quran-audio-btn quran-audio-play`}
+                    onClick={() => {
+                      if (playingAyah) {
+                        stopAudio();
+                      } else if (hifdhMode) {
+                        playHifdh();
+                      } else {
+                        playSurah();
+                      }
+                    }}
+                  >
+                    {playingAyah ? <Pause size={20} /> : <Play size={20} />}
+                  </button>
+                  <button className="quran-audio-btn" onClick={stopAudio}>
+                    <StopCircle size={16} />
+                  </button>
+                  <button className="quran-audio-btn" onClick={handleNextSurah} disabled={!selectedSurah || selectedSurah >= 114}>
+                    <SkipForward size={16} />
+                  </button>
+                  <button
+                    className={`quran-toggle-trans ${showTajweed ? "active" : ""}`}
+                    onClick={() => setShowTajweed(!showTajweed)}
+                  >
+                    {showTajweed ? "Tajweed On" : "Tajweed Off"}
+                  </button>
+                  <button
+                    className={`quran-hifdh-toggle ${hifdhMode ? "active" : ""}`}
+                    onClick={() => { stopAudio(); setHifdhMode(!hifdhMode); }}
+                  >
+                    <RotateCw size={14} />
+                    Hifdh
+                  </button>
+                </div>
+
+                {hifdhMode && (
+                  <div className="quran-hifdh-panel">
+                    <div className="quran-hifdh-row">
+                      <label className="quran-hifdh-label">Range</label>
+                      <CustomSelect
+                        value={String(hifdhRangeStart)}
+                        onChange={(v) => setHifdhRangeStart(Number(v))}
+                        options={ayahOptions}
+                        compact
+                      />
+                      <span className="quran-hifdh-sep">to</span>
+                      <CustomSelect
+                        value={String(hifdhRangeEnd)}
+                        onChange={(v) => setHifdhRangeEnd(Number(v))}
+                        options={ayahOptions}
+                        compact
+                      />
+                    </div>
+                    <div className="quran-hifdh-row">
+                      <label className="quran-hifdh-label">Repeat verse</label>
+                      <input
+                        type="number"
+                        className="quran-hifdh-input"
+                        min={1}
+                        max={100}
+                        value={hifdhRepeatsPerVerse}
+                        onChange={(e) => setHifdhRepeatsPerVerse(Math.max(1, Number(e.target.value)))}
+                      />
+                      <span className="quran-hifdh-unit">x</span>
+                      <label className="quran-hifdh-label">Repeat range</label>
+                      <input
+                        type="number"
+                        className="quran-hifdh-input"
+                        min={1}
+                        max={100}
+                        value={hifdhRepeatsOfRange}
+                        onChange={(e) => setHifdhRepeatsOfRange(Math.max(1, Number(e.target.value)))}
+                      />
+                      <span className="quran-hifdh-unit">x</span>
+                    </div>
+                    <div className="quran-hifdh-row">
+                      <label className="quran-hifdh-label">Gap</label>
+                      <input
+                        type="range"
+                        className="quran-hifdh-slider"
+                        min={0}
+                        max={5000}
+                        step={500}
+                        value={hifdhGapMs}
+                        onChange={(e) => setHifdhGapMs(Number(e.target.value))}
+                      />
+                      <span className="quran-hifdh-gap-val">{hifdhGapMs === 0 ? "None" : `${hifdhGapMs / 1000}s`}</span>
+                    </div>
+                    {playingAyah && hifdhCurrentVerse && (
+                      <div className="quran-hifdh-progress">
+                        Ayah {hifdhCurrentVerse} · {hifdhVerseCount}/{hifdhRepeatsPerVerse} · Range {hifdhRangeCount}/{hifdhRepeatsOfRange}
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               <div className="quran-page-nav">

@@ -194,7 +194,10 @@
 
 /* Mushaf Image Display */
 .quran-mushaf-spread {
-  flex: 1;
+  flex: none;
+  width: 70%;
+  height: 70%;
+  margin: auto;
   overflow: hidden;
   background: var(--surface);
   border: 2px solid var(--border-strong);
@@ -207,11 +210,12 @@
 }
 
 .quran-mushaf-spread.single-page {
+  width: 45%;
   justify-content: center;
 }
 
 .quran-mushaf-spread.single-page .quran-mushaf-page {
-  max-width: 50%;
+  flex: 1;
 }
 
 .quran-mushaf-page {
@@ -226,20 +230,30 @@
   display: block;
   user-select: none;
   -webkit-user-drag: none;
-  object-fit: fill;
+  object-fit: contain;
+}
+
+.quran-mushaf-page.cover-fit .quran-mushaf-image {
+  object-fit: cover;
 }
 
 /* Audio Controls */
 .quran-audio-bar {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 8px;
   padding: 12px 16px;
   background: var(--surface);
   border: 2px solid var(--border-strong);
   border-radius: 14px;
   margin-top: 12px;
+}
+
+.quran-audio-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .quran-audio-btn {
@@ -379,4 +393,116 @@
 
 @keyframes quran-spin {
   to { transform: rotate(360deg); }
+}
+
+/* Hifdh Mode */
+.quran-hifdh-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border: 2px solid var(--border-strong);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: calc(var(--app-font-size) * 0.75);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.quran-hifdh-toggle:hover {
+  border-color: var(--accent);
+  color: var(--fg);
+}
+
+.quran-hifdh-toggle.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.quran-hifdh-panel {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+}
+
+.quran-hifdh-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.quran-hifdh-label {
+  font-size: calc(var(--app-font-size) * 0.75);
+  color: var(--text-muted);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.quran-hifdh-input {
+  padding: 4px 8px;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--fg);
+  font-size: calc(var(--app-font-size) * 0.8);
+  font-family: inherit;
+  min-width: 60px;
+}
+
+.quran-hifdh-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.quran-hifdh-input[type="number"] {
+  width: 55px;
+  min-width: 55px;
+}
+
+.quran-hifdh-sep,
+.quran-hifdh-unit {
+  font-size: calc(var(--app-font-size) * 0.75);
+  color: var(--text-muted);
+}
+
+.quran-hifdh-slider {
+  flex: 1;
+  min-width: 80px;
+  accent-color: var(--accent);
+}
+
+.quran-hifdh-gap-val {
+  font-size: calc(var(--app-font-size) * 0.75);
+  color: var(--accent);
+  font-weight: 600;
+  min-width: 36px;
+  text-align: center;
+}
+
+.quran-hifdh-progress {
+  font-size: calc(var(--app-font-size) * 0.75);
+  color: var(--accent);
+  font-weight: 600;
+  text-align: center;
+  padding: 4px 0;
+}
+
+/* Hifdh page highlighting */
+.quran-mushaf-spread.hifdh-active .quran-mushaf-page.hifdh-highlight {
+  box-shadow: 0 0 20px 4px var(--accent);
+  border-radius: 8px;
+}
+
+.quran-mushaf-page.hifdh-highlight {
+  transition: box-shadow 0.3s ease;
 }
